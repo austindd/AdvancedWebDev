@@ -19,17 +19,29 @@ function findAvg(a, b) {
 
 
 let fruits = ['apple', 'banana', 'orange'];
-let favFruit = 'orange';
 function getFirstFruit() {
+    let favFruit;
     console.log(fruits[0]);
-    $('#fruits').append(`<p>First fruit in array: ${fruits[0]}</p>`);
 
-    let myNewFav = favFruit;
-}
+    favFruit = fruits[2];
+    function getFavFruit() {
+        console.log(favFruit);
+    };
+    getFavFruit();
+
+    let leastFav = fruits[1];
+    console.log(leastFav);
+
+};
 getFirstFruit();
 
-function getFavFruit() {
-    console.log(favFruit);
-    $('#fruits').append(`<p>My favorite fruit in array: ${favFruit}</p>`);
+printMyName();
+
+function printMyName() {
+    console.log('Hello, ', name);
 }
-getFavFruit();
+
+let myFunction = function() {
+    console.log('Hellooooo!');
+}
+myFunction();
