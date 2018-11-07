@@ -6,9 +6,7 @@ The objective of this lab assignment is to practice ES6 fundamentals that were e
 
 ### Template Literals and Default Parameters Value
 
-1. Declare a new function named 
-
-favMovie that takes in one parameter.
+1. Declare a new function named `favMovie` that takes in one parameter.
 2. Inside the function log a message to the console that tells the user what your favorite movie is. _Note: Use template literals._ Example:
 
 functionfavMovie(movie) {
