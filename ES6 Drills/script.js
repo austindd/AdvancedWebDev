@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    // Template Literals and Default Parameters Value
+    // ========== Template Literals and Default Parameters Value ==========
 
     let favMovie = (name = 'Austin', movie = 'The Room') => console.log(`My name is ${name}, and my favorite movie is ${movie}`);;
     favMovie();
@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 
 
-    // Arrow Functions
+    // ========== Arrow Functions ==========
 
     let getFirstName = function(name = 'FirstName') {
         let full_name = name.split(' ');
@@ -30,5 +30,27 @@ $(document).ready(function () {
     console.log(math_result);
 
 
-    // Spread Syntax
+
+    // ========== Spread Syntax ==========
+
+    let my_array = ['Zeus', 'Olympus', 'fried unicorn'];
+    
+    let printFavFood = function (name = 'Austin', location = 'Birimingham', favFood = 'cheeseburgers') {
+        console.log(`My name is ${name}, I live in ${location}, and like to eat ${favFood}. Yummmmmm!`)
+    };
+
+    printFavFood();
+    printFavFood(...my_array);
+
+    let my_name = 'Austin';
+
+    let spreadThatButter = function(butter) {
+        let dinner_roll = [...butter];
+        for (let i = 0; i < dinner_roll.length; i++) {
+            console.log(dinner_roll[i]);
+        };
+    };
+
+    spreadThatButter('I can\'t believe it\'s not butter!');
+
 });
