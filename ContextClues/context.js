@@ -29,9 +29,9 @@ var weapons = [
         
         var accusation = {
             element: $(`#accusation${i + 1}`),
-            person: friends[((i) % 5)],  // +1 to make the modular math work right, -1 to refer to the correct array index
-            place: locations[((i) % 10)],
-            thing: weapons[((i) % 20)],
+            person: friends[i % 5],
+            place: locations[i % 10],
+            thing: weapons[i % 20],
             createAlert: function() {
                 console.log('Inside createAlert Function');
                 this.element.on('click', function(){
@@ -44,9 +44,45 @@ var weapons = [
     };
 
 
-        // var person = friends[((i + 1) % 5) - 1];  // +1 to make the modular math work right, -1 to refer to the correct array index
-        // var place = locations[((i + 1) % 10) - 1];
-        // var thing = weapons[((i + 1) % 20) - 1];
+
+
+        // var accusation = {
+        //     element: $(`<h3 id='accusation${i + 1}' class='accusation-header'>Accusation ${i + 1}</h3>`),
+        //     person: friends[i % 5],
+        //     place: locations[i % 10],
+        //     thing: weapons[i % 20],
+        // };
+    
+        // $('#main-container').append(accusation.element);
+    
+        // createAlert(i);
+    
+        // function createAlert(num) {
+        //     accusation.element.click(function() {
+        //         console.log(num);
+        //     })
+        // }
 
 
 });
+
+
+// for (var i = 0; i < 100; i++) {
+        
+//     $('#main-container').append(`<h3 id='accusation${i + 1}' class='accusation-header'>Accusation ${i + 1}</h3>`);
+    
+//     var accusation = {
+//         element: $(`#accusation${i + 1}`),
+//         person: friends[i % 5],
+//         place: locations[i % 10],
+//         thing: weapons[i % 20],
+//         createAlert: function() {
+//             console.log('Inside createAlert Function');
+//             this.element.on('click', function(){
+//                 console.log('Inside Click Function');
+//                 alert(`Personally, I think ${this.person} did it, with ${this.thing}, in ${this.place}`);
+//             });
+//         },
+//     };
+//     accusation.createAlert()
+// };
