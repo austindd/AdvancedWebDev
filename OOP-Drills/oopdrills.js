@@ -63,58 +63,123 @@ $(document).ready(function() {
             this.type = type;
             this.manufacturer = manufacturer;
             this.wheels = wheels;
-            this.info = [`Type: ${this.type}`,`Manufacturer: ${this.manufacturer}`, `# of Wheels: ${this.wheels}`];
-
+            this.info = [
+                `Type: ${this.type}`,
+                `Manufacturer: ${this.manufacturer}`, 
+                `# of Wheels: ${this.wheels}`];
         }
-        aboutVehicle() {
+        getInfo() {
             console.log(`Vehicle Info: `, this.info);
         }
     }
 
     let vehicle1 = new Vehicle('sedan', 'subaru', 4);
-    vehicle1.aboutVehicle();
+    vehicle1.getInfo();
+
+
 
     class Truck extends Vehicle {
         constructor(manufacturer, doors, truck_bed = true) {
             super('truck', manufacturer, 4);
             this.doors = doors;
             this.truck_bed = truck_bed;
+            this.info = [
+                `Type: ${this.type}`,
+                `Manufacturer: ${this.manufacturer}`,
+                `# of Wheels: ${this.wheels}`,
+                `# of Doors: ${this.doors}`,
+                `Truck Bed: ${this.truck_bed}`
+            ];
+
         }
     }
     let truck1 = new Truck('toyota', 2, true);
     console.log(truck1);
+    truck1.getInfo();
+
+
 
     class Sedan extends Vehicle {
         constructor(manufacturer, doors, size, mpg) {
             super('sedan', manufacturer, 4);
             this.doors = doors;
-            if (size.toLowerCase() === ('medium' || 'small')) {
+            if ((size.toLowerCase() == 'medium') || (size.toLowerCase() == 'small')) {
                 this.size = size;
             } else {
                 this.size = false;
             };
             this.mpg = mpg;
+            this.info = [
+                `Type: ${this.type}`,
+                `Manufacturer: ${this.manufacturer}`,
+                `# of Wheels: ${this.wheels}`,
+                `# of Doors: ${this.doors}`,
+                `Size: ${this.size}`,
+                `MPG: ${this.mpg}`
+            ];
         }
+        getInfo() {
+            console.log(`Vehicle Info: `, this.info);
+        }
+
     }
 
-    let sedan1 = new Sedan('subaru', 4, 'small', 20);
+    let sedan1 = new Sedan('subaru', 4, 'medium', 20);
     console.log(sedan1);
     let sedan2 = new Sedan('volkswagen', 2, 'invalid input', 21); // 'size' should return 'false'
     console.log(sedan2);
+    sedan1.getInfo();
+    sedan2.getInfo();
+
+
 
     class Motorcycle extends Vehicle {
         constructor(manufacturer) {
             super('motorcycle', manufacturer, 2);
             this.handlebars = true;
             this.doors = false;
+            this.info = [
+                `Type: ${this.type}`,
+                `Manufacturer: ${this.manufacturer}`,
+                `# of Wheels: ${this.wheels}`,
+                `# of Doors: ${this.doors}`,
+                `Handlebars: ${this.handlebars}`
+            ];
+        }
+        getInfo() {
+            console.log(`Vehicle Info: `, this.info);
         }
     }
 
     let motorcycle1 = new Motorcycle('yamaha');
     console.log(motorcycle1);
+    motorcycle1.getInfo();
 
 
+    // ========================= Just some more practice below ==========================
 
+    class FreightTruck extends Truck {
+        constructor(manufacturer, doors, size, wheels, truck_bed, company_name = 'unassigned') {
+            super(manufacturer, doors, truck_bed);
+            this.size = size,
+            this.wheels = wheels,
+            this.company_name = company_name,
+            this.info = [
+                `Type: ${this.type}`,
+                `Manufacturer: ${this.manufacturer}`,
+                `# of Wheels: ${this.wheels}`,
+                `# of Doors: ${this.doors}`,
+                `Truck Bed: ${this.truck_bed}`,
+                `Company Name: ${this.company_name}`
+            ];
+        }
+        getInfo() {
+            console.log(`Vehicle Info: `, this.info);
+        }
+    }
+    let freightTruck1 = new FreightTruck('mercedes', 2, 'large', 18, true, 'ACME Inc.');
+    console.log(freightTruck1);
+    freightTruck1.getInfo();
 
 
 
