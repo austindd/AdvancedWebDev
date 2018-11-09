@@ -1,6 +1,7 @@
 #die-container {
     margin: 2vh;
     justify-content: flex-start;
+    margin: 4px;
 }
 
 .die {
@@ -11,6 +12,6 @@
     margin: 4px;
 }
 
-.ready-to-delete {
+.deletion-flag {
     background-color: red;
 }
