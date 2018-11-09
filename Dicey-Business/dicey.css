@@ -1,0 +1,10 @@
+#die-container {
+    display: inline;
+    justify-content: flex-start;
+}
+
+.die {
+    height: 60px;
+    width: 60px;
+    border: 1px solid black;
+}
