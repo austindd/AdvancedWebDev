@@ -24,7 +24,7 @@ $(document).ready(function () {
             this.element.css({'background-image': `url('Blue-Dice/dice_blue_${this.value}.png')`}); // Normal die image
 
             $('#die-counter').empty();
-            $('#die-counter').append(`<h6>Count: ${die_object_map.length + 1}</h6>`);
+            $('#die-counter').append(`<h6 class='text-center'>Count: ${die_object_map.length + 1}</h6>`);
 
             this.element.click(() => {
                 if (this.deletion_flag === false) {
@@ -49,7 +49,6 @@ $(document).ready(function () {
         }
         roll() {
             this.value = Math.floor(Math.random() * 6) + 1;
-            console.log(this.value);
             this.element.css({
                 'background-image': `url('Blue-Dice/dice_blue_${this.value}.png')`,
             });
@@ -85,20 +84,21 @@ $(document).ready(function () {
             let myIndex = die_object_map.findIndex((val) => { return (val.deletion_flag === true) });
             die_object_map.splice(myIndex, 1);
         };
-        $('.deletion-flag').parent().remove(); // Remove die from screen
+        $('.deletion-flag').parent().remove(); // Remove selected dice from screen
         console.log(die_object_map);
 
         // Reset Die Counter <div>
         $('#die-counter').empty();
-        $('#die-counter').append(`<h6>Count: ${die_object_map.length}</h6>`);
+        $('#die-counter').append(`<h6 class='text-center'>Count: ${die_object_map.length}</h6>`);
 
     });
     $('#btn-getsum').click(function () {
 
-        $(`#msg-banner-wrapper`).empty()
+        $(`#msg-banner-wrapper`).empty() // Clear message banner
         let die_value_array = die_object_map.map((item, i) => item.value); // return 'value' property of each object in object map.
         let sumOfAllFears = die_value_array.reduce((total, num) => { return total + num }); // add all values in new array.
 
+        // Add message banner
         $('#msg-banner-wrapper').append(`<h3 id="msg-banner" class='text-center' data-toggle='tooltip' title='Click to clear'>SUM: ${sumOfAllFears}</h3>`);
         $(`#msg-banner-wrapper`).click((e) => {
             $('#msg-banner').remove();
