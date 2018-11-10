@@ -12,16 +12,42 @@
 </head>
 
 <body>
-    <div class="main-container">
-        <div id='btn-wrapper-main' class="btn-wrapper">
-            <button id="btn-generate" class="btn">Generate Die</button>
-            <button id="btn-roll" class="btn">Roll Dice</button>
-            <button id="btn-remove" class="btn">Remove Die</button>
-        </div>
-        <div id="die-container" class="container">
+    <div id="main-container" class="container">
+        
+        <div id='btn-container' class="row justify-content-center">
+
+            <div class="col-6">
+                <div id='btn-generate-wrapper' class="btn-wrapper d-flex justify-content-center">
+                    <button id="btn-generate" class="btn btn-secondary die-btn flex-item">Add Dice</button>
+                </div>
+                <div id="btn-roll-wrapper" class="btn-wrapper d-flex justify-content-center">
+                    <button id="btn-roll" class="btn btn-secondary die-btn flex-item">Roll Dice</button>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div id="btn-remove-wrapper" class="btn-wrapper d-flex justify-content-center">
+                    <button id="btn-remove" class="btn btn-secondary die-btn flex-item">Remove Dice</button>
+                </div>
+                <div id="btn-getsum-wrapper" class="btn-wrapper d-flex justify-content-center">
+                        <button id="btn-getsum" class="btn btn-secondary die-btn flex-item">Get Sum</button>
+                </div>
+            </div>
 
         </div>
+
+        <div id="msg-banner-container" class="row d-flex justify-content-center">
+            <div id="die-counter" class="col-4 flex item"></div>
+            <div id="msg-banner-wrapper" class="col-4 flex-item"></div>
+            <div class="col-4 flex item"></div>
+
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <div id="die-container" class="row flex-item d-flex flex-wrap justify-content-center"></div>
+        </div>
     </div>
+
 
 
     <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
