@@ -24,7 +24,7 @@ $(document).ready(function () {
             this.element.css({'background-image': `url('Blue-Dice/dice_blue_${this.value}.png')`}); // Normal die image
 
             $('#die-counter').empty();
-            $('#die-counter').append(`<h6>Die Count: ${die_object_map.length + 1}</h6>`);
+            $('#die-counter').append(`<h6>Count: ${die_object_map.length + 1}</h6>`);
 
             this.element.click(() => {
                 if (this.deletion_flag === false) {
@@ -90,7 +90,7 @@ $(document).ready(function () {
 
         // Reset Die Counter <div>
         $('#die-counter').empty();
-        $('#die-counter').append(`<h6>Die Count: ${die_object_map.length}</h6>`);
+        $('#die-counter').append(`<h6>Count: ${die_object_map.length}</h6>`);
 
     });
     $('#btn-getsum').click(function () {

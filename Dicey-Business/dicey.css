@@ -35,8 +35,11 @@ body {
 }
 
 #msg-banner-container {
-    color: #28a745;
     height: 2.5em;
+}
+
+#msg-banner-wrapper {
+    color: #28a745;
 }
 
 .die-wrapper {
