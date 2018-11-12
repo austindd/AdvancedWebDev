@@ -17,18 +17,18 @@
             <!-- Shape Buttons -->
             <div id="button-col" class="col-3 flex-item">
                 <div class="button-wrapper d-flex">
-                    <button id="square-btn" class="btn shape-button flex-item">SQUARE</button>
+                    <button id="square-btn" class="btn shape-button flex-item btn-dark">SQUARE</button>
                 </div>
                 <div class="button-wrapper d-flex">
-                    <button id="rectangle-btn" class="btn shape-button flex-item">RECTANGLE</button>
+                    <button id="rectangle-btn" class="btn shape-button flex-item btn-dark">RECTANGLE</button>
                 </div>
             </div>
             <div id="button-col" class="col-3 flex-item">
                 <div class="button-wrapper d-flex">
-                    <button id="circle-btn" class="btn shape-button flex-item">CIRCLE</button>
+                    <button id="circle-btn" class="btn shape-button flex-item btn-dark">CIRCLE</button>
                 </div>
                 <div class="button-wrapper d-flex">
-                    <button id="triangle-btn" class="btn shape-button flex-item">TRIANGLE</button>
+                    <button id="triangle-btn" class="btn shape-button flex-item btn-dark">TRIANGLE</button>
                 </div>
             </div>
 
@@ -43,6 +43,7 @@
                     <div class="form-group">
                         <label for="square-input" class='form-label' style='display: block'>Square:</label>
                         <input type="text" class="form-control-sm" placeholder="Side Length (pixels)">
+                        <button type="submit" id="square-submit-btn" class="btn btn-sm btn-dark">Draw!</button>
                     </div>
                 </form>
                 <form id="rectangle-input" style="display: none">
@@ -50,18 +51,24 @@
                         <label for="rectangle-input" class='form-label' style='display: block'>Rectangle:</label>
                         <input type="text" class="form-control-sm" placeholder="Height (pixels)">
                         <input type="text" class="form-control-sm" placeholder="Width (pixels)">
+                        <button type="submit" id="rectangle-submit-btn" class="btn btn-sm btn-dark">Draw!</button>
+
                     </div>
                 </form>
                 <form id="circle-input" style="display: none">
                     <div class="form-group">
                         <label for="circle-input" class='form-label' style='display: block'>Circle:</label>
                         <input type="text" class="form-control-sm" placeholder="Radius (pixels)">
+                        <button type="submit" id="circle-submit-btn" class="btn btn-sm btn-dark">Draw!</button>
+
                     </div>
                 </form>
                 <form id="triangle-input" style="display: none">
                     <div class="form-group">
                         <label for="triangle-input" class='form-label' style='display: block'>Triangle:</label>
                         <input type="text" class="form-control-sm" placeholder="Height (pixels)">
+                        <button type="submit" id="triangle-submit-btn" class="btn btn-sm btn-dark">Draw!</button>
+
                     </div>
                 </form>
             </div>

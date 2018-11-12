@@ -49,8 +49,13 @@ $(document).ready(function () {
         }
         roll() {
             this.value = Math.floor(Math.random() * 6) + 1;
+            if (this.deletion_flag === false) {
+                this.element.css({
+                    'background-image': `url('Blue-Dice/dice_blue_${this.value}.png')`,
+                });    
+            } else if (this.deletion_flag === true)
             this.element.css({
-                'background-image': `url('Blue-Dice/dice_blue_${this.value}.png')`,
+                'background-image': `url('Yellow-Dice/dice_yellow_${this.value}.png')`,
             });
 
         };
