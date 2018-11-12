@@ -1,0 +1,35 @@
+.container {
+    margin: 0.5em;
+}
+
+/* Row 1 */
+
+#button-col {
+    min-width: fit-content;
+}
+.button-wrapper {
+    margin: 0.5vh;
+    height: fit-content !important;
+    width: 7em;
+}
+.shape-button {
+    width: 100%;
+}
+
+/* Row 2 */
+
+#row2 {
+    min-height: 85px;
+}
+
+.form-label {
+    margin-left: 0.5em;
+}
+
+/* Row 3 */
+#shape-canvas {
+    margin: 1em;
+    height: 600px;
+    width: 600px;
+    border: 2px solid black;
+}

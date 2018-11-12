@@ -1,22 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Shape Up Or Shape Out</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+    <div id="main-container" class="container">
+        <div id="row1" class="row d-flex">
+            <!-- Shape Buttons -->
+            <div id="button-col" class="col-3 flex-item">
+                <div class="button-wrapper d-flex">
+                    <button id="square-btn" class="btn shape-button flex-item">SQUARE</button>
+                </div>
+                <div class="button-wrapper d-flex">
+                    <button id="rectangle-btn" class="btn shape-button flex-item">RECTANGLE</button>
+                </div>
+            </div>
+            <div id="button-col" class="col-3 flex-item">
+                <div class="button-wrapper d-flex">
+                    <button id="circle-btn" class="btn shape-button flex-item">CIRCLE</button>
+                </div>
+                <div class="button-wrapper d-flex">
+                    <button id="triangle-btn" class="btn shape-button flex-item">TRIANGLE</button>
+                </div>
+            </div>
 
 
+        </div>
 
-    <script
-        src="http://code.jquery.com/jquery-3.3.1.js"
-        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+
+        <div id="row2" class="row">
+            <!-- Input Forms -->
+            <div id="form-col" class="col-12 flex-item">
+                <form id="square-input" style="display: none">
+                    <div class="form-group">
+                        <label for="square-input" class='form-label' style='display: block'>Square:</label>
+                        <input type="text" class="form-control-sm" placeholder="Side Length (pixels)">
+                    </div>
+                </form>
+                <form id="rectangle-input" style="display: none">
+                    <div class="form-group">
+                        <label for="rectangle-input" class='form-label' style='display: block'>Rectangle:</label>
+                        <input type="text" class="form-control-sm" placeholder="Height (pixels)">
+                        <input type="text" class="form-control-sm" placeholder="Width (pixels)">
+                    </div>
+                </form>
+                <form id="circle-input" style="display: none">
+                    <div class="form-group">
+                        <label for="circle-input" class='form-label' style='display: block'>Circle:</label>
+                        <input type="text" class="form-control-sm" placeholder="Radius (pixels)">
+                    </div>
+                </form>
+                <form id="triangle-input" style="display: none">
+                    <div class="form-group">
+                        <label for="triangle-input" class='form-label' style='display: block'>Triangle:</label>
+                        <input type="text" class="form-control-sm" placeholder="Height (pixels)">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+
+        <div id="row3" class="row">
+            <div id="shape-canvas" class=></div>
+        </div>
+    </div>
+
+
+    <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
