@@ -21,7 +21,7 @@ $(document).ready(function () {
             this.width = width;
             this.radius = radius;
             this.color = color;
-            this.element = $(`<div id='${this.name}' class='shape'></div>`);
+            this.element = $(`<canvas id='${this.name}'></canvas>`);
             this.element.css({
                 'display': `inline-block`,
                 'top': `${this.top}px`,
@@ -42,7 +42,7 @@ $(document).ready(function () {
     };
 
     class Square extends Shape {
-        constructor(name, top, left, length, color = '#ffffff') {
+        constructor(name, left, top, length, color = '#ffffff') {
             super('square', name, left, top, length, length, length, color);
             this.height = length;
             this.width = length;
@@ -50,7 +50,7 @@ $(document).ready(function () {
         };
     };
     class Rectangle extends Shape {
-        constructor(name, top, left, height, width, color = '#ffffff') {
+        constructor(name, left, top, height, width, color = '#ffffff') {
             super('rectangle', name, left, top, height, width, height, color);
             this.height = height;
             this.width = width;
@@ -59,17 +59,12 @@ $(document).ready(function () {
     };
     class Circle extends Shape {
         constructor(name, top, left, radius, color = '#ffffff') {
-            super('circle', name, left, top, radius, radius, radius, color);
+            super('circle', name, left, top, 2 * radius, 2 * radius, radius, color);
             this.height = 2 * radius;
             this.width = 2 * radius;
             this.radius = radius;
-            this.element = $(`<canvas id='${this.name}'></canvas>`);
             this.element.css({
-                'display': `inline-block`,
-                'top': `${this.top}px`,
-                'left': `${this.left}px`,
-                'height': `${this.height}`,
-                'width': `${this.width}`,
+                'border': 'none',
             });
             this.draw = (destination) => {
                 destination.append(this.element);
@@ -79,10 +74,10 @@ $(document).ready(function () {
                     let x = this.canvas.width / 4;
                     let y = this.canvas.height / 2;
                     let r = 74;
-                    ctx.scale(2, 1);
+                    ctx.scale(2, 1); // For some reason the 'arc()' method assumes a 1:2 aspect ratio for the canvas, so scaling adjustments are necessary.
                     ctx.beginPath();
                     ctx.arc(x, y, r, 0, 2 * Math.PI, false);
-                    ctx.lineWidth = 2;
+                    ctx.lineWidth = 1;
                     ctx.strokeStyle = '#000000';
                     ctx.stroke();
                 };
@@ -90,9 +85,30 @@ $(document).ready(function () {
         };
     };
     class Triangle extends Shape {
-        constructor(name, top, left, height) {
-            super(name, top, left);
+        constructor(name, left, top, height, width, color = '#ffffff') {
+            super('triangle', name, left, top, height, width, null, color);
             this.height = height;
+            this.width = width;
+            this.element.css({
+                'border': 'none',
+            });
+            this.draw = (destination) => {
+                destination.append(this.element);
+                this.canvas = document.getElementById(`${this.name}`);
+                if (this.canvas.getContext) {
+                    let ctx = this.canvas.getContext('2d');
+                    ctx.beginPath();
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = '#000000';
+                    ctx.moveTo(0, this.canvas.height);      // From bottom left corner
+                    ctx.lineTo(this.canvas.width / 2, 0);    // To top mid-point
+                    ctx.lineTo(this.canvas.width, this.canvas.height);  // To bottom right corner
+                    ctx.lineTo(0, this.canvas.height);      // Back to start point
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = '#000000';
+                    ctx.stroke();
+                };
+            };
         };
     };
 
@@ -103,7 +119,7 @@ $(document).ready(function () {
         e.preventDefault();    // Prevent form from reloading page
         console.log($('#square-input :input'));
         let length = $('#square-input :input')[0].value;  // $('#square-input :input') is an object, [0] is the child object 'input', and 'value' is an property of 'input'
-        let newShape = new Square(shape_index, shape_top, shape_left, length);
+        let newShape = new Square(shape_index, shape_left, shape_top, length);
         console.log(newShape);
         newShape.describe();
         newShape.draw($(`#shape-canvas`));
@@ -115,7 +131,7 @@ $(document).ready(function () {
         console.log($('#rectangle-input :input'));
         let height = $('#rectangle-input :input')[0].value;
         let width = $('#rectangle-input :input')[1].value;
-        let newShape = new Rectangle(shape_index, shape_top, shape_left, height, width);
+        let newShape = new Rectangle(shape_index, shape_left, shape_top, height, width);
         console.log(newShape);
         newShape.describe();
         newShape.draw($(`#shape-canvas`));
@@ -126,7 +142,7 @@ $(document).ready(function () {
         e.preventDefault();    // Prevent form from reloading page
         console.log($('#circle-input :input'));
         let radius = $('#circle-input :input')[0].value;
-        let newShape = new Circle(shape_index, shape_top, shape_left, radius);
+        let newShape = new Circle(shape_index, shape_left, shape_top, radius);
         console.log(newShape);
         newShape.describe();
         newShape.draw($(`#shape-canvas`));
@@ -135,7 +151,13 @@ $(document).ready(function () {
     });
     $("#triangle-input").submit(function (e) {
         e.preventDefault();    // Prevent form from reloading page
-
+        console.log($('#triangle-input :input'));
+        let height = $('#triangle-input :input')[0].value;
+        let width = height;
+        let newShape = new Triangle(shape_index, shape_left, shape_top, height, width);
+        newShape.describe();
+        newShape.draw($(`#shape-canvas`));
+        shape_index++;
     });
 
 
