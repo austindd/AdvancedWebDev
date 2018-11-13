@@ -60,12 +60,9 @@ $(document).ready(function () {
     class Circle extends Shape {
         constructor(name, top, left, radius, color = '#ffffff') {
             super('circle', name, left, top, radius, radius, radius, color);
-            this.height = length;
-            this.width = length;
+            this.height = 2 * radius;
+            this.width = 2 * radius;
             this.radius = radius;
-            this.centerX = this.left + this.radius;
-            this.centerY = this.top + this.radius;
-
             this.element = $(`<canvas id='${this.name}'></canvas>`);
             this.element.css({
                 'display': `inline-block`,
@@ -73,22 +70,22 @@ $(document).ready(function () {
                 'left': `${this.left}px`,
                 'height': `${this.height}`,
                 'width': `${this.width}`,
-                'border': `1px solid black`,
             });
-            this.draw = () => {
-                console.log(this);
-                // let x = this.centerX;
-                // let y = this.centerY;
-                // let r = this.radius;
-                // let s_angle = 0;
-                // let e_angle = 2 * Math.PI;
-                let canvas;
-                let ctx;
-                this.canvas = document.getElementById('shape-canvas');
-                console.log(this.canvas);
-                console.log(this.canvas.getContext());
-                this.ctx = this.canvas.getContext('2d');
-                this.ctx.arc(this.centerX, this.centerY, this.radius, 0, 2*Math.PI, false);
+            this.draw = (destination) => {
+                destination.append(this.element);
+                this.canvas = document.getElementById(`${this.name}`);
+                if (this.canvas.getContext) {
+                    let ctx = this.canvas.getContext('2d');
+                    let x = this.canvas.width / 4;
+                    let y = this.canvas.height / 2;
+                    let r = 74;
+                    ctx.scale(2, 1);
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, 0, 2 * Math.PI, false);
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = '#000000';
+                    ctx.stroke();
+                };
             };
         };
     };
