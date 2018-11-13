@@ -6,9 +6,6 @@ $(document).ready(function () {
     let shape_left = 0;
     let shape_top = 0;
 
-
-
-
     // ========================== CLASSES ==========================
 
     class Shape {
@@ -32,12 +29,10 @@ $(document).ready(function () {
                 'border': `1px solid black`,
             });
             this.draw = (destination) => {
-                console.log(destination);
                 destination.append(this.element);
                 return;
             };
             this.describe = () => {
-                console.log('Shape Info: ', `Type: ${this.type} | Name: ${this.name} | Left: ${this.left} | Top: ${this.top} | Height: ${this.height} | Width: ${this.width} | Radius: ${this.radius} | Color: ${this.color}`);
                 return [`Type: ${this.type}`, `Name: ${this.name}`, `Left: ${this.left}`, `Top: ${this.top}`, `Height: ${this.height}`, `Width: ${this.width}`, `Radius: ${this.radius}`, `Color: ${this.color}`];
             };
         };
@@ -45,7 +40,7 @@ $(document).ready(function () {
 
     class Square extends Shape {
         constructor(name, left, top, length, color = '#ffffff') {
-            super('square', name, left, top, length, length, length, color);
+            super('square', name, left, top, length, length, null, color);
             this.element.css({
                 'background-color': `${this.color}`,
             });
@@ -70,8 +65,6 @@ $(document).ready(function () {
             this.draw = (destination) => {
                 destination.append(this.element);
                 this.canvas = document.getElementById(`${this.name}`);
-                console.log(this.canvas);
-
                 let ctx = this.canvas.getContext('2d');
                 let x = this.canvas.width / 4; // Changing the center position to account for ctx.scale() below
                 let y = this.canvas.height / 2; // Changing the center position to account for ctx.scale() below
@@ -98,8 +91,6 @@ $(document).ready(function () {
             this.draw = (destination) => {
                 destination.append(this.element);
                 this.canvas = document.getElementById(`${this.name}`);
-                console.log(this.canvas);
-
                 let ctx = this.canvas.getContext('2d');
                 ctx.beginPath();
                 ctx.lineWidth = 2;
@@ -117,7 +108,6 @@ $(document).ready(function () {
 
     // ================== EVENT LISTENERS / FUNCTIONS ==================
 
-
     $("#square-input").submit(function (e) {
         e.preventDefault();    // Prevent form from reloading page
         let length = $('#square-input :input')[0].value;  // $('#square-input :input') is an object, [0] is the child object 'input', and 'value' is an property of 'input'
@@ -126,32 +116,33 @@ $(document).ready(function () {
         let newShape = new Square(shape_index, shape_left, shape_top, length, 'red');
         console.log(newShape);
         newShape.draw($(`#shape-canvas`));
-
         newShape.element.click(() => {
+            // Clear info columns
             $(`#info-col-1`).empty();
             $(`#info-col-2`).empty();
+            // Display shape info in columns on screen
             for (let i = 0; i < newShape.describe().length; i++) {
-                console.log(Math.floor(newShape.describe().length - 1));
-                console.log(i);
-                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {   // If array.length is even, split even between columns, if odd, favor first column.
+                // If array.length is even, split even between columns, if odd, favor first column.
+                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {   
                     $(`#info-col-1`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
                 } else {
                     $(`#info-col-2`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
                 };
             };
+            console.log('Shape Info: ', newShape.describe());
             return;
         });
         newShape.element.dblclick(() => {
-            $(`#info-col-1`).empty();
+            $(`#info-col-1`).empty(); // Clear info columns
             $(`#info-col-2`).empty();
-            newShape.element.remove();
+            newShape.element.remove(); // Remove shape from screen
             return;
         });
-
         shape_index++;
     });
+
     $("#rectangle-input").submit(function (e) {
-        e.preventDefault();    // Prevent form from reloading page
+        e.preventDefault();
         let height = $('#rectangle-input :input')[0].value;
         let width = $('#rectangle-input :input')[1].value;
         shape_left = Math.floor(Math.random() * (600 - width));
@@ -164,14 +155,13 @@ $(document).ready(function () {
             $(`#info-col-1`).empty();
             $(`#info-col-2`).empty();
             for (let i = 0; i < newShape.describe().length; i++) {
-                console.log(Math.floor(newShape.describe().length - 1));
-                console.log(i);
-                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {   // If array.length is even, split even between columns, if odd, favor first column.
+                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {
                     $(`#info-col-1`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
                 } else {
                     $(`#info-col-2`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
                 };
             };
+            console.log('Shape Info: ', newShape.describe());
             return;
         });
         newShape.element.dblclick(() => {
@@ -180,9 +170,9 @@ $(document).ready(function () {
             newShape.element.remove();
             return;
         });
-
         shape_index++;
     });
+
     $("#circle-input").submit(function (e) {
         e.preventDefault();    // Prevent form from reloading page
         let radius = $('#circle-input :input')[0].value;
@@ -196,14 +186,13 @@ $(document).ready(function () {
             $(`#info-col-1`).empty();
             $(`#info-col-2`).empty();
             for (let i = 0; i < newShape.describe().length; i++) {
-                console.log(Math.floor(newShape.describe().length - 1));
-                console.log(i);
-                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {   // If array.length is even, split even between columns, if odd, favor first column.
+                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {
                     $(`#info-col-1`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
                 } else {
                     $(`#info-col-2`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
                 };
             };
+            console.log('Shape Info: ', newShape.describe());
             return;
         });
         newShape.element.dblclick(() => {
@@ -212,9 +201,9 @@ $(document).ready(function () {
             newShape.element.remove();
             return;
         });
-
         shape_index++;
     });
+
     $("#triangle-input").submit(function (e) {
         e.preventDefault();    // Prevent form from reloading page
         let height = $('#triangle-input :input')[0].value;
@@ -228,14 +217,13 @@ $(document).ready(function () {
             $(`#info-col-1`).empty();
             $(`#info-col-2`).empty();
             for (let i = 0; i < newShape.describe().length; i++) {
-                console.log(Math.floor(newShape.describe().length - 1));
-                console.log(i);
-                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {   // If array.length is even, split even between columns, if odd, favor first column.
+                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {
                     $(`#info-col-1`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
                 } else {
                     $(`#info-col-2`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
                 };
             };
+            console.log('Shape Info: ', newShape.describe());
             return;
         });
         newShape.element.dblclick(() => {
@@ -244,7 +232,6 @@ $(document).ready(function () {
             newShape.element.remove();
             return;
         });
-
         shape_index++;
     });
 
