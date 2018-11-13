@@ -23,6 +23,7 @@ $(document).ready(function () {
             this.color = color;
             this.element = $(`<canvas id='${this.name}'></canvas>`);
             this.element.css({
+                'position': 'absolute',
                 'display': `inline-block`,
                 'top': `${this.top}px`,
                 'left': `${this.left}px`,
@@ -36,7 +37,8 @@ $(document).ready(function () {
                 return;
             };
             this.describe = () => {
-                console.log('Shape Info: ', `Type ${this.type} | Name: ${this.name} | Color: ${this.color} | Left: ${this.left} | Top: ${this.top} | Height: ${this.height} Width: ${this.width} | Radius: ${this.radius}`);
+                console.log('Shape Info: ', `Type: ${this.type} | Name: ${this.name} | Left: ${this.left} | Top: ${this.top} | Height: ${this.height} | Width: ${this.width} | Radius: ${this.radius} | Color: ${this.color}`);
+                return [`Type: ${this.type}`, `Name: ${this.name}`, `Left: ${this.left}`, `Top: ${this.top}`, `Height: ${this.height}`, `Width: ${this.width}`, `Radius: ${this.radius}`, `Color: ${this.color}`];
             };
         };
     };
@@ -44,43 +46,44 @@ $(document).ready(function () {
     class Square extends Shape {
         constructor(name, left, top, length, color = '#ffffff') {
             super('square', name, left, top, length, length, length, color);
-            this.height = length;
-            this.width = length;
-            this.radius = null;
+            this.element.css({
+                'background-color': `${this.color}`,
+            });
         };
     };
+
     class Rectangle extends Shape {
         constructor(name, left, top, height, width, color = '#ffffff') {
-            super('rectangle', name, left, top, height, width, height, color);
-            this.height = height;
-            this.width = width;
-            this.radius = null;
+            super('rectangle', name, left, top, height, width, null, color);
+            this.element.css({
+                'background-color': `${this.color}`,
+            });
+
         };
     };
     class Circle extends Shape {
         constructor(name, top, left, radius, color = '#ffffff') {
             super('circle', name, left, top, 2 * radius, 2 * radius, radius, color);
-            this.height = 2 * radius;
-            this.width = 2 * radius;
-            this.radius = radius;
             this.element.css({
                 'border': 'none',
             });
             this.draw = (destination) => {
                 destination.append(this.element);
                 this.canvas = document.getElementById(`${this.name}`);
-                if (this.canvas.getContext) {
-                    let ctx = this.canvas.getContext('2d');
-                    let x = this.canvas.width / 4;
-                    let y = this.canvas.height / 2;
-                    let r = 74;
-                    ctx.scale(2, 1); // For some reason the 'arc()' method assumes a 1:2 aspect ratio for the canvas, so scaling adjustments are necessary.
-                    ctx.beginPath();
-                    ctx.arc(x, y, r, 0, 2 * Math.PI, false);
-                    ctx.lineWidth = 1;
-                    ctx.strokeStyle = '#000000';
-                    ctx.stroke();
-                };
+                console.log(this.canvas);
+
+                let ctx = this.canvas.getContext('2d');
+                let x = this.canvas.width / 4; // Changing the center position to account for ctx.scale() below
+                let y = this.canvas.height / 2; // Changing the center position to account for ctx.scale() below
+                let r = 74; // Radius input from user determines height/width of <canvas> element, not literally the circle. 'r = 74' is (0.5 * <canvas> height) - 1px line width.
+                ctx.scale(2, 1); // For some reason the 'arc()' method assumes a 1:2 aspect ratio for the canvas, causing square <canvas> elements to render an oval, so scaling adjustments are necessary.
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, 2 * Math.PI, false);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#000000';
+                ctx.stroke();
+                ctx.fillStyle = this.color;
+                ctx.fill();
             };
         };
     };
@@ -95,19 +98,19 @@ $(document).ready(function () {
             this.draw = (destination) => {
                 destination.append(this.element);
                 this.canvas = document.getElementById(`${this.name}`);
-                if (this.canvas.getContext) {
-                    let ctx = this.canvas.getContext('2d');
-                    ctx.beginPath();
-                    ctx.lineWidth = 1;
-                    ctx.strokeStyle = '#000000';
-                    ctx.moveTo(0, this.canvas.height);      // From bottom left corner
-                    ctx.lineTo(this.canvas.width / 2, 0);    // To top mid-point
-                    ctx.lineTo(this.canvas.width, this.canvas.height);  // To bottom right corner
-                    ctx.lineTo(0, this.canvas.height);      // Back to start point
-                    ctx.lineWidth = 1;
-                    ctx.strokeStyle = '#000000';
-                    ctx.stroke();
-                };
+                console.log(this.canvas);
+
+                let ctx = this.canvas.getContext('2d');
+                ctx.beginPath();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#000000';
+                ctx.moveTo(1, this.canvas.height - 1);      // From bottom left corner ('-1' accounting for line width = 2px)
+                ctx.lineTo(this.canvas.width / 2, 1);    // To top mid-point
+                ctx.lineTo(this.canvas.width - 1, this.canvas.height - 1);  // To bottom right corner
+                ctx.lineTo(1, this.canvas.height - 1);      // Back to start point
+                ctx.stroke();
+                ctx.fillStyle = this.color;
+                ctx.fill();
             };
         };
     };
@@ -117,46 +120,131 @@ $(document).ready(function () {
 
     $("#square-input").submit(function (e) {
         e.preventDefault();    // Prevent form from reloading page
-        console.log($('#square-input :input'));
         let length = $('#square-input :input')[0].value;  // $('#square-input :input') is an object, [0] is the child object 'input', and 'value' is an property of 'input'
-        let newShape = new Square(shape_index, shape_left, shape_top, length);
+        shape_left = Math.floor(Math.random() * (600 - length));
+        shape_top = Math.floor(Math.random() * (600 - length));
+        let newShape = new Square(shape_index, shape_left, shape_top, length, 'red');
         console.log(newShape);
-        newShape.describe();
         newShape.draw($(`#shape-canvas`));
-        shape_index++;
 
+        newShape.element.click(() => {
+            $(`#info-col-1`).empty();
+            $(`#info-col-2`).empty();
+            for (let i = 0; i < newShape.describe().length; i++) {
+                console.log(Math.floor(newShape.describe().length - 1));
+                console.log(i);
+                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {   // If array.length is even, split even between columns, if odd, favor first column.
+                    $(`#info-col-1`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
+                } else {
+                    $(`#info-col-2`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
+                };
+            };
+            return;
+        });
+        newShape.element.dblclick(() => {
+            $(`#info-col-1`).empty();
+            $(`#info-col-2`).empty();
+            newShape.element.remove();
+            return;
+        });
+
+        shape_index++;
     });
     $("#rectangle-input").submit(function (e) {
         e.preventDefault();    // Prevent form from reloading page
-        console.log($('#rectangle-input :input'));
         let height = $('#rectangle-input :input')[0].value;
         let width = $('#rectangle-input :input')[1].value;
-        let newShape = new Rectangle(shape_index, shape_left, shape_top, height, width);
+        shape_left = Math.floor(Math.random() * (600 - width));
+        shape_top = Math.floor(Math.random() * (600 - height));
+        let newShape = new Rectangle(shape_index, shape_left, shape_top, height, width, 'green');
         console.log(newShape);
-        newShape.describe();
         newShape.draw($(`#shape-canvas`));
-        shape_index++;
 
+        newShape.element.click(() => {
+            $(`#info-col-1`).empty();
+            $(`#info-col-2`).empty();
+            for (let i = 0; i < newShape.describe().length; i++) {
+                console.log(Math.floor(newShape.describe().length - 1));
+                console.log(i);
+                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {   // If array.length is even, split even between columns, if odd, favor first column.
+                    $(`#info-col-1`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
+                } else {
+                    $(`#info-col-2`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
+                };
+            };
+            return;
+        });
+        newShape.element.dblclick(() => {
+            $(`#info-col-1`).empty();
+            $(`#info-col-2`).empty();
+            newShape.element.remove();
+            return;
+        });
+
+        shape_index++;
     });
     $("#circle-input").submit(function (e) {
         e.preventDefault();    // Prevent form from reloading page
-        console.log($('#circle-input :input'));
         let radius = $('#circle-input :input')[0].value;
-        let newShape = new Circle(shape_index, shape_left, shape_top, radius);
+        shape_left = Math.floor(Math.random() * (600 - (2 * radius)));
+        shape_top = Math.floor(Math.random() * (600 - (2 * radius)));
+        let newShape = new Circle(shape_index, shape_left, shape_top, radius, 'purple');
         console.log(newShape);
-        newShape.describe();
         newShape.draw($(`#shape-canvas`));
-        shape_index++;
 
+        newShape.element.click(() => {
+            $(`#info-col-1`).empty();
+            $(`#info-col-2`).empty();
+            for (let i = 0; i < newShape.describe().length; i++) {
+                console.log(Math.floor(newShape.describe().length - 1));
+                console.log(i);
+                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {   // If array.length is even, split even between columns, if odd, favor first column.
+                    $(`#info-col-1`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
+                } else {
+                    $(`#info-col-2`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
+                };
+            };
+            return;
+        });
+        newShape.element.dblclick(() => {
+            $(`#info-col-1`).empty();
+            $(`#info-col-2`).empty();
+            newShape.element.remove();
+            return;
+        });
+
+        shape_index++;
     });
     $("#triangle-input").submit(function (e) {
         e.preventDefault();    // Prevent form from reloading page
-        console.log($('#triangle-input :input'));
         let height = $('#triangle-input :input')[0].value;
         let width = height;
-        let newShape = new Triangle(shape_index, shape_left, shape_top, height, width);
-        newShape.describe();
+        shape_left = Math.floor(Math.random() * (600 - width));
+        shape_top = Math.floor(Math.random() * (600 - height));
+        let newShape = new Triangle(shape_index, shape_left, shape_top, height, width, 'yellow');
         newShape.draw($(`#shape-canvas`));
+
+        newShape.element.click(() => {
+            $(`#info-col-1`).empty();
+            $(`#info-col-2`).empty();
+            for (let i = 0; i < newShape.describe().length; i++) {
+                console.log(Math.floor(newShape.describe().length - 1));
+                console.log(i);
+                if (i < (Math.floor((newShape.describe().length + 1) / 2))) {   // If array.length is even, split even between columns, if odd, favor first column.
+                    $(`#info-col-1`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
+                } else {
+                    $(`#info-col-2`).append(`<p style='margin: 0'>${newShape.describe()[i]}</p>`);
+                };
+            };
+            return;
+        });
+        newShape.element.dblclick(() => {
+            $(`#info-col-1`).empty();
+            $(`#info-col-2`).empty();
+            newShape.element.remove();
+            return;
+        });
+
         shape_index++;
     });
 
