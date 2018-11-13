@@ -1,8 +1,10 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     // ==================== SEMI-GLOBAL VARIABLES ====================
 
-
+    let shape_index = 0;
+    let shape_left = 0;
+    let shape_top = 0;
 
 
 
@@ -10,46 +12,135 @@ $(document).ready(function() {
     // ========================== CLASSES ==========================
 
     class Shape {
-        constructor(name, top, left) {
+        constructor(type, name, left, top, height = null, width = null, radius = null, color = '#ffffff', ) {
+            this.type = type;
             this.name = name;
-            this.top = top;
             this.left = left;
+            this.top = top;
+            this.height = height;
+            this.width = width;
+            this.radius = radius;
+            this.color = color;
+            this.element = $(`<div id='${this.name}' class='shape'></div>`);
+            this.element.css({
+                'display': `inline-block`,
+                'top': `${this.top}px`,
+                'left': `${this.left}px`,
+                'height': `${this.height}`,
+                'width': `${this.width}`,
+                'border': `1px solid black`,
+            });
+            this.draw = (destination) => {
+                console.log(destination);
+                destination.append(this.element);
+                return;
+            };
+            this.describe = () => {
+                console.log('Shape Info: ', `Type ${this.type} | Name: ${this.name} | Color: ${this.color} | Left: ${this.left} | Top: ${this.top} | Height: ${this.height} Width: ${this.width} | Radius: ${this.radius}`);
+            };
         };
     };
 
     class Square extends Shape {
-        constructor(name, top, left, length) {
-            super(name, top, left);
-            this.length = length;  
-        };     
+        constructor(name, top, left, length, color = '#ffffff') {
+            super('square', name, left, top, length, length, length, color);
+            this.height = length;
+            this.width = length;
+            this.radius = null;
+        };
     };
-
     class Rectangle extends Shape {
-        constructor(name, top, left, height, width) {
-            super(name, top, left);
-            this.height = height;  
+        constructor(name, top, left, height, width, color = '#ffffff') {
+            super('rectangle', name, left, top, height, width, height, color);
+            this.height = height;
             this.width = width;
-        };     
+            this.radius = null;
+        };
     };
-
     class Circle extends Shape {
-        constructor(name, top, left, radius) {
-            super(name, top, left);
-            this.radius = radius;  
-        };     
-    };
+        constructor(name, top, left, radius, color = '#ffffff') {
+            super('circle', name, left, top, radius, radius, radius, color);
+            this.height = length;
+            this.width = length;
+            this.radius = radius;
+            this.centerX = this.left + this.radius;
+            this.centerY = this.top + this.radius;
 
+            this.element = $(`<canvas id='${this.name}'></canvas>`);
+            this.element.css({
+                'display': `inline-block`,
+                'top': `${this.top}px`,
+                'left': `${this.left}px`,
+                'height': `${this.height}`,
+                'width': `${this.width}`,
+                'border': `1px solid black`,
+            });
+            this.draw = () => {
+                console.log(this);
+                // let x = this.centerX;
+                // let y = this.centerY;
+                // let r = this.radius;
+                // let s_angle = 0;
+                // let e_angle = 2 * Math.PI;
+                let canvas;
+                let ctx;
+                this.canvas = document.getElementById('shape-canvas');
+                console.log(this.canvas);
+                console.log(this.canvas.getContext());
+                this.ctx = this.canvas.getContext('2d');
+                this.ctx.arc(this.centerX, this.centerY, this.radius, 0, 2*Math.PI, false);
+            };
+        };
+    };
     class Triangle extends Shape {
         constructor(name, top, left, height) {
             super(name, top, left);
-            this.height = height;  
-        };     
+            this.height = height;
+        };
     };
 
-
-
-
     // ================== EVENT LISTENERS / FUNCTIONS ==================
+
+
+    $("#square-input").submit(function (e) {
+        e.preventDefault();    // Prevent form from reloading page
+        console.log($('#square-input :input'));
+        let length = $('#square-input :input')[0].value;  // $('#square-input :input') is an object, [0] is the child object 'input', and 'value' is an property of 'input'
+        let newShape = new Square(shape_index, shape_top, shape_left, length);
+        console.log(newShape);
+        newShape.describe();
+        newShape.draw($(`#shape-canvas`));
+        shape_index++;
+
+    });
+    $("#rectangle-input").submit(function (e) {
+        e.preventDefault();    // Prevent form from reloading page
+        console.log($('#rectangle-input :input'));
+        let height = $('#rectangle-input :input')[0].value;
+        let width = $('#rectangle-input :input')[1].value;
+        let newShape = new Rectangle(shape_index, shape_top, shape_left, height, width);
+        console.log(newShape);
+        newShape.describe();
+        newShape.draw($(`#shape-canvas`));
+        shape_index++;
+
+    });
+    $("#circle-input").submit(function (e) {
+        e.preventDefault();    // Prevent form from reloading page
+        console.log($('#circle-input :input'));
+        let radius = $('#circle-input :input')[0].value;
+        let newShape = new Circle(shape_index, shape_top, shape_left, radius);
+        console.log(newShape);
+        newShape.describe();
+        newShape.draw($(`#shape-canvas`));
+        shape_index++;
+
+    });
+    $("#triangle-input").submit(function (e) {
+        e.preventDefault();    // Prevent form from reloading page
+
+    });
+
 
     // Display correct input form for each shape, and clear out other input forms.
     $('#square-btn').click(() => {
@@ -77,23 +168,6 @@ $(document).ready(function() {
         $('#triangle-input').css('display', 'block');
     });
 
-    $("#square-input").submit(function(e) {
-        e.preventDefault();    // Prevent form from reloading page
 
-    });
-    $("#rectangle-input").submit(function(e) {
-        e.preventDefault();    // Prevent form from reloading page
-
-    });
-    $("#circle-input").submit(function(e) {
-        e.preventDefault();    // Prevent form from reloading page
-
-    });
-    $("#triangle-input").submit(function(e) {
-        e.preventDefault();    // Prevent form from reloading page
-
-    });
-
-
-
+    // ======================= HELPER FUNCTIONS =======================
 });
