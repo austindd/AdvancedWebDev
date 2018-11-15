@@ -1,26 +1,37 @@
 $(document).ready(function () {
 
 
+    // ================= Async: Now and Later =================
 
-let firstFunction = (msg, num) => {
-    console.log(msg);
-    return num;
-}
-var num_1_global = firstFunction('Hey there!', 5);
+    var num_1_global
+    let firstFunction = (msg, num) => {
+        console.log(msg);
+        num_1_global = num
+        return num;
+    }
+    firstFunction('Hey there!', 5);
+    let secondFunction = () => {
+        let result = 4 * num_1_global;
+        console.log(result);
+    }
+    let myTimeout = () => {
+        setTimeout(secondFunction, 2000);
+    }
+    secondFunction();
+    myTimeout();
 
-let secondFunction = () => {
-    let result = 4 * num_1_global;
-    console.log(result);
-}
 
-let myTimeout = () => {
-    setTimeout(secondFunction, 2000);
-}
+    // ====================== Callbacks ======================
 
-secondFunction();
-myTimeout();
+    let getWords = () => {
+        let word1 = "Pleased";
+        let word2 = 'to';
+        let word3 = 'meet';
+        let word4 = "y'all";
 
-
+        console.log(word1);
+        
+    }
 
 
 
