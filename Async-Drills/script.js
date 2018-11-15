@@ -28,10 +28,41 @@ $(document).ready(function () {
         let word2 = 'to';
         let word3 = 'meet';
         let word4 = "y'all";
+        const getFirstWord = () => {
+            console.log(word1);
+            return getSecondWord()
+        };
+        const getSecondWord = () => {
+            setTimeout(() => {
+                console.log(word2);
+                return getThirdWord();
+            }, 3000);
+        };
+        const getThirdWord = () => {
+            setTimeout(() => {
+                console.log(word3);
+                return getFourthWord();
+            }, 2000);
+        };
+        const getFourthWord = () => {
+            setTimeout(() => {
+                console.log(word4);
+            }, 1000);
+        };
+        getFirstWord();
+    };
+    getWords();
 
-        console.log(word1);
-        
-    }
+
+const countdown = (num, callback) => {
+
+}
+
+
+
+
+
+
 
 
 
