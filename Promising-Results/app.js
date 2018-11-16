@@ -8,42 +8,72 @@ document.addEventListener('DOMContentLoaded', function () {
     let myPromiseChain = (num_1, num_2) => {
         let start_val_1 = num_1;
         let start_val_2 = num_2;
-        let err = () => new Error('You done effed up, A-Aron!!');
+        let err = () => {
+            let error = new Error('You done effed up, A-Aron!!');
+            console.log(error);
+            return error;
+        };
+        console.log(`Starting Values: ${start_val_1} | ${start_val_2}`);
         return new Promise((resolve, reject) => {
-            let result = add(start_val_1, start_val_2); // 1
+            let result = slowMath.add(start_val_1, start_val_2); // 1
             resolve(result);
             reject(err);
         }).then((val) => {
+            console.log(val);
             return new Promise((resolve, reject) => {
-                let result = multiply(val, 2); // 2
-                console.log(val);
+                let result = slowMath.multiply(val, 2); // 2
                 resolve(result);
                 reject(err);
             }).then((val) => {
+                console.log(val);
                 return new Promise((resolve, reject) => {
-                    let result = divide(val, 4); // 3
-                    console.log(result);
+                    let result = slowMath.divide(val, 4); // 3
                     resolve(result);
                     reject(err);
                 }).then((val) => {
+                    console.log(val);
                     return new Promise((resolve, reject) => {
-                        let result = subtract(val, 3); //4
-                        console.log(result);
+                        let result = slowMath.subtract(val, 3); // 4
                         resolve(result);
                         reject(err);
                     }).then((val) => {
+                        console.log(val);
                         return new Promise((resolve, reject) => {
-                            let result = add(val, 98); //5
-                            console.log(result);
+                            let result = slowMath.add(val, 98); // 5
                             resolve(result);
                             reject(err);
                         }).then((val) => {
+                            console.log(val);
                             return new Promise((resolve, reject) => {
-                                let result = remainder(val, 2); //6
-                                console.log(result);
+                                let result = slowMath.remainder(val, 2); // 6
                                 resolve(result);
-                                reject(err);                            
-                            }).then((val) => {}).catch(err);
+                                reject(err);
+                            }).then((val) => {
+                                console.log(val);
+                                return new Promise((resolve, reject) => {
+                                    let result = slowMath.multiply(val, 50); // 7
+                                    resolve(result);
+                                    reject(err);
+                                }).then((val) => {
+                                    console.log(val);
+                                    return new Promise((resolve, reject) => {
+                                        let result = slowMath.remainder(val, 40); // 8
+                                        resolve(result);
+                                        reject(err);                                    
+                                    }).then((val) => {
+                                        console.log(val);
+                                        return new Promise((resolve, reject) => {
+                                            let result = slowMath.add(val, 32); // 9
+                                            resolve(result);
+                                            reject(err);                                        
+                                        }).then((val) => {
+                                            console.log(val);
+                                            console.log(`The final anser is ${val}`);
+                                            return val;
+                                        }).catch(err);
+                                    }).catch(err);
+                                }).catch(err);
+                            }).catch(err);
                         }).catch(err);
                     }).catch(err);
                 }).catch(err);
@@ -51,8 +81,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }).catch(err);
     };
 
-    myPromiseChain(6, 2);
 
+    let startBtn = document.getElementById('button-1');
+    console.log(startBtn);
+    let msgBanner = document.createElement('button');
+    let msgText = document.createTextNode('But what if we start with 1 & 1?');
+
+    startBtn.addEventListener('click', () => {
+        msgBanner.className = 'btn m-2 btn-warning';
+        msgBanner.appendChild(msgText);
+        document.getElementById('banner-wrapper').appendChild(msgBanner);
+
+        setTimeout(() => {myPromiseChain(6, 2)},500);
+
+    });
+
+    msgBanner.addEventListener('click', () => {
+        setTimeout(() => {myPromiseChain(1, 1)},500);
+
+    })
 
 
     // ==== CopyPasta ====
@@ -61,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
 
-    let result = subtract(val, 3); //4
+    let result =  //
     console.log(result);
     resolve(result);
     reject(err);
