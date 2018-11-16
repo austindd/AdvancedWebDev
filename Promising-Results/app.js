@@ -170,6 +170,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // =================== Helper Functions ===================
 
 
+    // Takes a number (1-10) to represent progress meter at each resolved promise.
+    // If two promise chains are active, it takes an array of both progress values
+    //  then computes the average between them, updating the progress bar.
     const updateProgress = (num) => {
 
         let result;
@@ -192,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const getProgress = ([a, b = a]) => {
         let p = 10 * (Math.floor(avg(a, b)) + 1);               // Using 10% increments
-        console.log(`${p}% complete`);
+        console.log(`Promise chain(s) ${p}% complete`);
         return p;
     }
 
